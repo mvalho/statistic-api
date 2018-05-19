@@ -1,6 +1,7 @@
 package com.mvalho.project.statisticsapi.service;
 
 import com.mvalho.project.statisticsapi.dao.TransactionDAO;
+import com.mvalho.project.statisticsapi.entity.StatisticDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 import com.mvalho.project.statisticsapi.repository.TransactionRepository;
 import com.mvalho.project.statisticsapi.service.impl.StatisticServiceImpl;
@@ -20,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class StatisticServiceTest {
+public class StatisticDTOServiceTest {
     @Autowired
     private TransactionDAO transactionDAO;
 
@@ -118,9 +119,16 @@ public class StatisticServiceTest {
     }
 
     @Test
-    public void countShouldReturnTheTotalOfTrasactionsWithingTheLast60Seconds() {
+    public void countShouldReturnTheTotalOfTransactionsWithingTheLast60Seconds() {
         long expected = 3L;
 
         assertThat(this.statisticService.count(this.lastTransactions)).isEqualTo(expected);
+    }
+
+    @Test
+    public void getStatisticShouldReturnAllStatisticsWithinTheLast60Seconds() {
+        StatisticDTO expected = new StatisticDTO(166.64, 55.54666666666666, 98.12, 10.28, 3L);
+
+        assertThat(this.statisticService.getStatistics()).isEqualToComparingFieldByField(expected);
     }
 }
