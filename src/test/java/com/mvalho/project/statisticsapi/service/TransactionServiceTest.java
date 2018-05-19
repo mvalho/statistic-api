@@ -20,4 +20,13 @@ public class TransactionServiceTest {
 
         assertThat(this.transactionService.save(transaction)).isEqualTo(expectedCode);
     }
+
+    @Test
+    public void saveShouldRespondWithCode204WhenTheTransactionIsOutsideTheLast60Seconds() {
+        this.transactionService = new TransactionServiceImpl();
+        Transaction transaction = new Transaction(new BigDecimal(12.3), LocalDateTime.now().minusSeconds(61));
+        int expectedCode = 204;
+
+        assertThat(this.transactionService.save(transaction)).isEqualTo(expectedCode);
+    }
 }

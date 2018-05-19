@@ -16,6 +16,8 @@ public class TransactionServiceImpl implements TransactionService {
         int responseCode = 0;
         if (transaction.getCreated().isAfter(timeRange)) {
             responseCode = 201;
+        } else {
+            responseCode = 204;
         }
         return responseCode;
     }
