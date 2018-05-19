@@ -65,6 +65,14 @@ public class StatisticServiceTest {
     }
 
     @Test
+    public void sumShouldReturnZeroWhenTheListIsEmpty() {
+        this.lastTransactions.clear();
+        double expected = 0.0;
+
+        assertThat(this.statisticService.sum(this.lastTransactions)).isEqualTo(expected);
+    }
+
+    @Test
     public void averageShouldCalculateTheAverageValueOfAllAmountFromTheTransactionsWithinTheLast60Seconds() {
         double expected = 55.54666666666666;
 
@@ -72,7 +80,7 @@ public class StatisticServiceTest {
     }
 
     @Test
-    public void averageShouldReturn0WhenTheListIsEmpty() {
+    public void averageShouldReturnZeroWhenTheListIsEmpty() {
         this.lastTransactions.clear();
         double expected = 0.0;
 
