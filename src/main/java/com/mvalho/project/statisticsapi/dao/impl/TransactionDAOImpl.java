@@ -26,6 +26,6 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public void resetTransactionList() {
-        this.transactionList = new ArrayList<>();
+        this.transactionList.clear();
     }
 }
