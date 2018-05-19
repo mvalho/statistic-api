@@ -1,5 +1,6 @@
 package com.mvalho.project.statisticsapi.service.impl;
 
+import com.mvalho.project.statisticsapi.dto.TransactionDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 import com.mvalho.project.statisticsapi.service.TransactionService;
 import org.springframework.stereotype.Component;
@@ -9,8 +10,8 @@ import java.time.LocalDateTime;
 @Component
 public class TransactionServiceImpl implements TransactionService {
     @Override
-    public int save(Transaction transaction) {
-        return getResponseCode(transaction);
+    public TransactionDTO save(Transaction transaction) {
+        return new TransactionDTO(getResponseCode(transaction), transaction);
     }
 
     private int getResponseCode(Transaction transaction) {

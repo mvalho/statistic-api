@@ -1,5 +1,6 @@
 package com.mvalho.project.statisticsapi.service;
 
+import com.mvalho.project.statisticsapi.dto.TransactionDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,7 @@ public class TransactionServiceTest {
         Transaction transaction = new Transaction(new BigDecimal(50.0), LocalDateTime.now().minusSeconds(10));
         int expectedCode = 201;
 
-        assertThat(this.transactionService.save(transaction)).isEqualTo(expectedCode);
+        assertThat(this.transactionService.save(transaction)).hasFieldOrPropertyWithValue("responseCode", expectedCode);
     }
 
     @Test
@@ -31,6 +32,27 @@ public class TransactionServiceTest {
         Transaction transaction = new Transaction(new BigDecimal(12.3), LocalDateTime.now().minusSeconds(61));
         int expectedCode = 204;
 
-        assertThat(this.transactionService.save(transaction)).isEqualTo(expectedCode);
+        assertThat(this.transactionService.save(transaction)).hasFieldOrPropertyWithValue("responseCode", expectedCode);
+    }
+
+    @Test
+    public void saveShouldRespondWithCode201AndTheAddedTransactionWhenATransactionIsWithinTheLast60Second() {
+        Transaction transaction = new Transaction(new BigDecimal(50.0), LocalDateTime.now().minusSeconds(10));
+        int expectedCode = 201;
+
+        TransactionDTO expected = new TransactionDTO(expectedCode, transaction);
+
+        assertThat(this.transactionService.save(transaction)).isEqualToComparingFieldByField(expected);
+
+    }
+
+    @Test
+    public void saveShouldRespondWithCode204AndTheAddedTransactionWhenATransactionIsOutsideTheLast60Second() {
+        Transaction transaction = new Transaction(new BigDecimal(12.3), LocalDateTime.now().minusSeconds(61));
+        int expectedCode = 204;
+
+        TransactionDTO expected = new TransactionDTO(expectedCode, transaction);
+
+        assertThat(this.transactionService.save(transaction)).isEqualToComparingFieldByField(expected);
     }
 }
