@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class TransactionDAOImpl implements TransactionDAO {
@@ -20,15 +21,6 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public List<Transaction> getLastTransactions(LocalDateTime localDateTime) {
-        List<Transaction> transactionsWithin60Seconds = new ArrayList<>();
-        LocalDateTime timeRange = localDateTime.minusSeconds(60);
-
-        for (Transaction transaction : this.transactionList) {
-            if (transaction.getCreated().isAfter(timeRange)) {
-                transactionsWithin60Seconds.add(transaction);
-            }
-        }
-
-        return transactionsWithin60Seconds;
+        return this.transactionList.stream().filter(transaction -> transaction.getCreated().isAfter(localDateTime.minusSeconds(60))).collect(Collectors.toList());
     }
 }
