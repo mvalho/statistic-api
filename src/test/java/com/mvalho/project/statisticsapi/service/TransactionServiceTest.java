@@ -3,6 +3,7 @@ package com.mvalho.project.statisticsapi.service;
 import com.mvalho.project.statisticsapi.dao.TransactionDAO;
 import com.mvalho.project.statisticsapi.dto.TransactionDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
+import com.mvalho.project.statisticsapi.repository.TransactionRepository;
 import com.mvalho.project.statisticsapi.service.impl.TransactionServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,11 +25,14 @@ public class TransactionServiceTest {
     private TransactionService transactionService;
 
     @Autowired
+    private TransactionRepository transactionRepository;
+
+    @Autowired
     private TransactionDAO transactionDAO;
 
     @Before
     public void setUp() {
-        this.transactionService = new TransactionServiceImpl(transactionDAO);
+        this.transactionService = new TransactionServiceImpl(transactionRepository);
         this.transactionDAO.resetTransactionList();
     }
 
@@ -77,7 +81,7 @@ public class TransactionServiceTest {
 
         List<Transaction> expected = Arrays.asList(transaction);
 
-        assertThat(this.transactionDAO.getLastTransactions(now))
+        assertThat(this.transactionRepository.getLastTransactions(now))
                 .hasSize(1)
                 .hasSameElementsAs(expected);
 
