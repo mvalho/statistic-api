@@ -27,4 +27,8 @@ public class Transaction {
     public int hashCode() {
         return Objects.hash(created, amount);
     }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
 }
