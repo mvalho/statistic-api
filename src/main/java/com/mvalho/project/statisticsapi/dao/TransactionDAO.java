@@ -9,4 +9,6 @@ public interface TransactionDAO {
     Transaction add(Transaction transaction);
 
     List<Transaction> getLastTransactions(LocalDateTime localDateTime);
+
+    void resetTransactionList();
 }

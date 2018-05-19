@@ -23,4 +23,9 @@ public class TransactionDAOImpl implements TransactionDAO {
     public List<Transaction> getLastTransactions(LocalDateTime localDateTime) {
         return this.transactionList.stream().filter(transaction -> transaction.getCreated().isAfter(localDateTime.minusSeconds(60))).collect(Collectors.toList());
     }
+
+    @Override
+    public void resetTransactionList() {
+        this.transactionList = new ArrayList<>();
+    }
 }

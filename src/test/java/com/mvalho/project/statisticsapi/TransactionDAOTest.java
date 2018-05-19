@@ -2,6 +2,7 @@ package com.mvalho.project.statisticsapi;
 
 import com.mvalho.project.statisticsapi.dao.TransactionDAO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TransactionDAOTest {
+    private LocalDateTime localDateTime;
+
     @Autowired
     private TransactionDAO transactionDAO;
 
+    @Before
+    public void setUp() {
+        this.transactionDAO.resetTransactionList();
+        long timestampNow = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+        this.localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestampNow), ZoneId.systemDefault());
+    }
+
     @Test
-    public void shouldStoreTransactionWhenNewTransactionIsUsed() {
+    public void addShouldStoreTransactionWhenNewTransactionIsUsed() {
         Transaction transaction = new Transaction(new BigDecimal(12.3), LocalDateTime.ofInstant(Instant.ofEpochSecond(1478192204000L), ZoneId.systemDefault()));
         Transaction expected = new Transaction(new BigDecimal(12.3), LocalDateTime.ofInstant(Instant.ofEpochSecond(1478192204000L), ZoneId.systemDefault()));
 
@@ -33,16 +43,13 @@ public class TransactionDAOTest {
     }
 
     @Test
-    public void shouldRetrieveAllTransactionWhenTheCreatedDateIsNotGreaterThan60Seconds() {
-        long timestampNow = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestampNow), ZoneId.systemDefault());
-
-        Transaction transaction1 = new Transaction(new BigDecimal(12.3), localDateTime.minusSeconds(10));
-        Transaction transaction2 = new Transaction(new BigDecimal(20.0), localDateTime);
-        Transaction transaction3 = new Transaction(new BigDecimal(15.5), localDateTime.minusSeconds(20));
-        Transaction transaction4 = new Transaction(new BigDecimal(56.78), localDateTime.minusSeconds(70));
-        Transaction transaction5 = new Transaction(new BigDecimal(45.6), localDateTime.minusSeconds(80));
-        Transaction transaction6 = new Transaction(new BigDecimal(98.7), localDateTime.minusSeconds(61));
+    public void getLastTransactionsShouldRetrieveAllTransactionWhenTheCreatedDateIsNotGreaterThan60Seconds() {
+        Transaction transaction1 = new Transaction(new BigDecimal(12.3), this.localDateTime.minusSeconds(10));
+        Transaction transaction2 = new Transaction(new BigDecimal(20.0), this.localDateTime);
+        Transaction transaction3 = new Transaction(new BigDecimal(15.5), this.localDateTime.minusSeconds(20));
+        Transaction transaction4 = new Transaction(new BigDecimal(56.78), this.localDateTime.minusSeconds(70));
+        Transaction transaction5 = new Transaction(new BigDecimal(45.6), this.localDateTime.minusSeconds(80));
+        Transaction transaction6 = new Transaction(new BigDecimal(98.7), this.localDateTime.minusSeconds(61));
 
         this.transactionDAO.add(transaction1);
         this.transactionDAO.add(transaction2);
@@ -52,12 +59,17 @@ public class TransactionDAOTest {
         this.transactionDAO.add(transaction6);
 
         List<Transaction> expected = Arrays.asList(
-                new Transaction(new BigDecimal(12.3), localDateTime.minusSeconds(10)),
-                new Transaction(new BigDecimal(20.0), localDateTime),
-                new Transaction(new BigDecimal(15.5), localDateTime.minusSeconds(20)));
+                new Transaction(new BigDecimal(12.3), this.localDateTime.minusSeconds(10)),
+                new Transaction(new BigDecimal(20.0), this.localDateTime),
+                new Transaction(new BigDecimal(15.5), this.localDateTime.minusSeconds(20)));
 
-        assertThat(this.transactionDAO.getLastTransactions(localDateTime))
+        assertThat(this.transactionDAO.getLastTransactions(this.localDateTime))
                 .hasSize(3)
                 .hasSameElementsAs(expected);
+    }
+
+    @Test
+    public void getLastTransactionsShouldNotRetrieveTransactionWhenNoTransactionWasAdded() {
+        assertThat(this.transactionDAO.getLastTransactions(this.localDateTime)).hasSize(0).isEmpty();
     }
 }
