@@ -1,6 +1,5 @@
-package com.mvalho.project.statisticsapi;
+package com.mvalho.project.statisticsapi.dao;
 
-import com.mvalho.project.statisticsapi.dao.TransactionDAO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 import org.junit.Before;
 import org.junit.Test;
