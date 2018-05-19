@@ -93,4 +93,12 @@ public class StatisticServiceTest {
 
         assertThat(this.statisticService.max(this.lastTransactions)).isEqualTo(expected);
     }
+
+    @Test
+    public void maxShouldReturnZeroWhenTheListIsEmpty() {
+        this.lastTransactions.clear();
+        double expected = 0.0;
+
+        assertThat(this.statisticService.max(this.lastTransactions)).isEqualTo(expected);
+    }
 }
