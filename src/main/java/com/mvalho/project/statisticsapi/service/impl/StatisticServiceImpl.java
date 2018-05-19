@@ -38,4 +38,9 @@ public class StatisticServiceImpl implements StatisticService {
     public double min(List<Transaction> lastTransactions) {
         return lastTransactions.stream().mapToDouble(Transaction::getAmount).min().orElse(0.0);
     }
+
+    @Override
+    public long count(List<Transaction> lastTransactions) {
+        return lastTransactions.size();
+    }
 }

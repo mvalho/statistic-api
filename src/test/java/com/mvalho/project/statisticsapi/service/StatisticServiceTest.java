@@ -116,4 +116,11 @@ public class StatisticServiceTest {
 
         assertThat(this.statisticService.min(this.lastTransactions)).isEqualTo(expected);
     }
+
+    @Test
+    public void countShouldReturnTheTotalOfTrasactionsWithingTheLast60Seconds() {
+        long expected = 3L;
+
+        assertThat(this.statisticService.count(this.lastTransactions)).isEqualTo(expected);
+    }
 }
