@@ -101,4 +101,19 @@ public class StatisticServiceTest {
 
         assertThat(this.statisticService.max(this.lastTransactions)).isEqualTo(expected);
     }
+
+    @Test
+    public void minShouldReturnTheLowestAmountFromTheTransactionsWithinTheLast60Second() {
+        double expected = 10.28;
+
+        assertThat(this.statisticService.min(this.lastTransactions)).isEqualTo(expected);
+    }
+
+    @Test
+    public void minShouldReturnZeroWhenTheListIsEmpty() {
+        this.lastTransactions.clear();
+        double expected = 0.0;
+
+        assertThat(this.statisticService.min(this.lastTransactions)).isEqualTo(expected);
+    }
 }

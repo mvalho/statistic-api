@@ -10,4 +10,6 @@ public interface StatisticService {
     double average(List<Transaction> lastTransactions);
 
     double max(List<Transaction> lastTransactions);
+
+    double min(List<Transaction> lastTransactions);
 }

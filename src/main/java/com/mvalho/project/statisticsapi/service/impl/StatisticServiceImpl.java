@@ -33,4 +33,9 @@ public class StatisticServiceImpl implements StatisticService {
     public double max(List<Transaction> lastTransactions) {
         return lastTransactions.stream().mapToDouble(Transaction::getAmount).max().orElse(0.0);
     }
+
+    @Override
+    public double min(List<Transaction> lastTransactions) {
+        return lastTransactions.stream().mapToDouble(Transaction::getAmount).min().orElse(0.0);
+    }
 }
