@@ -2,9 +2,11 @@ package com.mvalho.project.statisticsapi.service.impl;
 
 import com.mvalho.project.statisticsapi.entity.Transaction;
 import com.mvalho.project.statisticsapi.service.TransactionService;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+@Component
 public class TransactionServiceImpl implements TransactionService {
     @Override
     public int save(Transaction transaction) {
@@ -13,12 +15,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     private int getResponseCode(Transaction transaction) {
         LocalDateTime timeRange = LocalDateTime.now().minusSeconds(60);
-        int responseCode = 0;
-        if (transaction.getCreated().isAfter(timeRange)) {
-            responseCode = 201;
-        } else {
-            responseCode = 204;
-        }
-        return responseCode;
+        return transaction.getCreated().isAfter(timeRange) ? 201 : 204;
     }
 }
