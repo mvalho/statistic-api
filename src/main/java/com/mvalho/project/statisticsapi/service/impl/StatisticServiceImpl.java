@@ -28,4 +28,9 @@ public class StatisticServiceImpl implements StatisticService {
     public double average(List<Transaction> lastTransactions) {
         return lastTransactions.stream().flatMapToDouble(transaction -> DoubleStream.of(transaction.getAmount())).average().orElse(0.0);
     }
+
+    @Override
+    public double max(List<Transaction> lastTransactions) {
+        return lastTransactions.stream().mapToDouble(Transaction::getAmount).max().orElse(0.0);
+    }
 }

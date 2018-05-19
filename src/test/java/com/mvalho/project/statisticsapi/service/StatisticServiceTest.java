@@ -86,4 +86,11 @@ public class StatisticServiceTest {
 
         assertThat(this.statisticService.average(lastTransactions)).isEqualTo(expected);
     }
+
+    @Test
+    public void maxShouldReturnTheHighestAmountFromTheTransactionsWithinTheLast60Seconds() {
+        double expected = 98.12;
+
+        assertThat(this.statisticService.max(this.lastTransactions)).isEqualTo(expected);
+    }
 }
