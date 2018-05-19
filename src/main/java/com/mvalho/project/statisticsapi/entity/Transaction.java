@@ -31,4 +31,8 @@ public class Transaction {
     public LocalDateTime getCreated() {
         return created;
     }
+
+    public double getAmount() {
+        return amount.doubleValue();
+    }
 }
