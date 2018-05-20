@@ -1,6 +1,6 @@
 package com.mvalho.project.statisticsapi.util;
 
-import com.mvalho.project.statisticsapi.entity.StatisticDTO;
+import com.mvalho.project.statisticsapi.dto.StatisticDTO;
 
 public class StatisticDtoBuilder {
     private static StatisticDTO statisticDTO;

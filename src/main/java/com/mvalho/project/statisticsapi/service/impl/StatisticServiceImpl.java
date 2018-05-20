@@ -1,6 +1,6 @@
 package com.mvalho.project.statisticsapi.service.impl;
 
-import com.mvalho.project.statisticsapi.entity.StatisticDTO;
+import com.mvalho.project.statisticsapi.dto.StatisticDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 import com.mvalho.project.statisticsapi.repository.TransactionRepository;
 import com.mvalho.project.statisticsapi.service.StatisticService;

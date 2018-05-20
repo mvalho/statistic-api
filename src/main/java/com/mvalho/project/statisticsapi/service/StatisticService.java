@@ -1,6 +1,6 @@
 package com.mvalho.project.statisticsapi.service;
 
-import com.mvalho.project.statisticsapi.entity.StatisticDTO;
+import com.mvalho.project.statisticsapi.dto.StatisticDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 
 import java.util.List;

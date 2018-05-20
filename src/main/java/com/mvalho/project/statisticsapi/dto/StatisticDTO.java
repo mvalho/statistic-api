@@ -1,4 +1,4 @@
-package com.mvalho.project.statisticsapi.entity;
+package com.mvalho.project.statisticsapi.dto;
 
 public class StatisticDTO {
     private double sum;
@@ -6,14 +6,6 @@ public class StatisticDTO {
     private double max;
     private double min;
     private long count;
-
-    public StatisticDTO(double sum, double avg, double max, double min, long count) {
-        this.sum = sum;
-        this.avg = avg;
-        this.max = max;
-        this.min = min;
-        this.count = count;
-    }
 
     public StatisticDTO() {
 
