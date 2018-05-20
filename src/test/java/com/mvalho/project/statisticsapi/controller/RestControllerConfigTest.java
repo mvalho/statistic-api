@@ -1,6 +1,7 @@
 package com.mvalho.project.statisticsapi.controller;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ComponentScan(basePackages = {"com.mvalho.project.statisticsapi.*"})
+@Ignore
 public class RestControllerConfigTest {
     MediaType contentType = new MediaType(MediaType.APPLICATION_JSON_UTF8.getType(), MediaType.APPLICATION_JSON_UTF8.getSubtype(), Charset.forName("utf8"));
     MockMvc mockMvc;
