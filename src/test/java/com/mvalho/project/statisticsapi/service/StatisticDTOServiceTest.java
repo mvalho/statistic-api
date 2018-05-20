@@ -5,6 +5,7 @@ import com.mvalho.project.statisticsapi.entity.StatisticDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 import com.mvalho.project.statisticsapi.repository.TransactionRepository;
 import com.mvalho.project.statisticsapi.service.impl.StatisticServiceImpl;
+import com.mvalho.project.statisticsapi.util.StatisticDtoBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -127,7 +128,14 @@ public class StatisticDTOServiceTest {
 
     @Test
     public void getStatisticShouldReturnAllStatisticsWithinTheLast60Seconds() {
-        StatisticDTO expected = new StatisticDTO(166.64, 55.54666666666666, 98.12, 10.28, 3L);
+        StatisticDTO expected = StatisticDtoBuilder
+                .create()
+                .withSum(166.64)
+                .withAverage(55.54666666666666)
+                .withMax(98.12)
+                .withMin(10.28)
+                .withCount(3L)
+                .build();
 
         assertThat(this.statisticService.getStatistics()).isEqualToComparingFieldByField(expected);
     }
