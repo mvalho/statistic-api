@@ -8,19 +8,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class TransactionRestControllerTest extends RestControllerConfigTest {
 
+    private final String jsonRequest = "{\"amount\":12.3,\"timestamp\":1478192204000}";
     private String urlTemplate = "/transactions";
 
     @Test
     public void saveTransactionShouldReceiveAPostMessageWhenTheServiceIsCalledThroughTransactionURL() throws Exception {
         this.mockMvc.perform(
-                post(urlTemplate).contentType(this.contentType).content("{\"amount\":12.3,\"timestamp\":1478192204000}").accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                post(urlTemplate).contentType(this.contentType).content(jsonRequest).accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
         ).andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void saveTransactionShouldAcceptATransactionAsMethodParameter() throws Exception {
         this.mockMvc.perform(
-                post(urlTemplate).contentType(this.contentType).content("{\"amount\":12.3,\"timestamp\":1478192204000}").accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                post(urlTemplate).contentType(this.contentType).content(jsonRequest).accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
         ).andExpect(status().is2xxSuccessful());
     }
+
+
 }
