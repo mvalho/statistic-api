@@ -4,6 +4,7 @@ import com.mvalho.project.statisticsapi.dto.TransactionDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 import com.mvalho.project.statisticsapi.repository.TransactionRepository;
 import com.mvalho.project.statisticsapi.service.TransactionService;
+import com.mvalho.project.statisticsapi.util.TransactionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,10 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDTO save(Transaction transaction) {
         this.transactionRepository.add(transaction);
 
-        return new TransactionDTO(getResponseCode(transaction), transaction);
+        return TransactionBuilder.create()
+                .withAmount(transaction.getAmount())
+                .withCreatedDate(transaction.getCreated())
+                .buildDTO(getResponseCode(transaction));
     }
 
     private int getResponseCode(Transaction transaction) {

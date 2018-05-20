@@ -1,4 +1,4 @@
-package com.mvalho.project.statisticsapi;
+package com.mvalho.project.statisticsapi.controller;
 
 import com.mvalho.project.statisticsapi.dto.TransactionDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
@@ -24,7 +24,6 @@ public class TransactionRestController {
     public TransactionRestController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
-
     @RequestMapping(method = RequestMethod.POST, value = "/transactions")
     public ResponseEntity<TransactionDTO> saveTransaction(@RequestBody TransactionDTO transactionDTO) {
         LocalDateTime created = LocalDateTime.ofInstant(Instant.ofEpochMilli(transactionDTO.getTimestamp()), ZoneId.of("+0"));

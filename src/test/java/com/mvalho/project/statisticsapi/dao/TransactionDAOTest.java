@@ -1,6 +1,7 @@
 package com.mvalho.project.statisticsapi.dao;
 
 import com.mvalho.project.statisticsapi.entity.Transaction;
+import com.mvalho.project.statisticsapi.util.TransactionBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,20 +36,20 @@ public class TransactionDAOTest {
 
     @Test
     public void addShouldStoreTransactionWhenNewTransactionIsUsed() {
-        Transaction transaction = new Transaction(new BigDecimal(12.3), LocalDateTime.ofInstant(Instant.ofEpochSecond(1478192204000L), ZoneId.systemDefault()));
-        Transaction expected = new Transaction(new BigDecimal(12.3), LocalDateTime.ofInstant(Instant.ofEpochSecond(1478192204000L), ZoneId.systemDefault()));
+        Transaction transaction = TransactionBuilder.create().withAmount(new BigDecimal(12.3)).withCreatedDate(1478192204000L).build();
+        Transaction expected = TransactionBuilder.create().withAmount(new BigDecimal(12.3)).withCreatedDate(1478192204000L).build();
 
         assertThat(this.transactionDAO.add(transaction)).isEqualTo(expected);
     }
 
     @Test
     public void getLastTransactionsShouldRetrieveAllTransactionWhenTheCreatedDateIsNotGreaterThan60Seconds() {
-        Transaction transaction1 = new Transaction(new BigDecimal(12.3), this.localDateTime.minusSeconds(10));
-        Transaction transaction2 = new Transaction(new BigDecimal(20.0), this.localDateTime);
-        Transaction transaction3 = new Transaction(new BigDecimal(15.5), this.localDateTime.minusSeconds(20));
-        Transaction transaction4 = new Transaction(new BigDecimal(56.78), this.localDateTime.minusSeconds(70));
-        Transaction transaction5 = new Transaction(new BigDecimal(45.6), this.localDateTime.minusSeconds(80));
-        Transaction transaction6 = new Transaction(new BigDecimal(98.7), this.localDateTime.minusSeconds(61));
+        Transaction transaction1 = TransactionBuilder.create().withAmount(new BigDecimal(12.3)).withCreatedDate(this.localDateTime.minusSeconds(10)).build();
+        Transaction transaction2 = TransactionBuilder.create().withAmount(new BigDecimal(20.0)).withCreatedDate(this.localDateTime).build();
+        Transaction transaction3 = TransactionBuilder.create().withAmount(new BigDecimal(15.5)).withCreatedDate(this.localDateTime.minusSeconds(20)).build();
+        Transaction transaction4 = TransactionBuilder.create().withAmount(new BigDecimal(56.78)).withCreatedDate(this.localDateTime.minusSeconds(70)).build();
+        Transaction transaction5 = TransactionBuilder.create().withAmount(new BigDecimal(45.6)).withCreatedDate(this.localDateTime.minusSeconds(80)).build();
+        Transaction transaction6 = TransactionBuilder.create().withAmount(new BigDecimal(98.7)).withCreatedDate(this.localDateTime.minusSeconds(61)).build();
 
         this.transactionDAO.add(transaction1);
         this.transactionDAO.add(transaction2);
@@ -58,9 +59,9 @@ public class TransactionDAOTest {
         this.transactionDAO.add(transaction6);
 
         List<Transaction> expected = Arrays.asList(
-                new Transaction(new BigDecimal(12.3), this.localDateTime.minusSeconds(10)),
-                new Transaction(new BigDecimal(20.0), this.localDateTime),
-                new Transaction(new BigDecimal(15.5), this.localDateTime.minusSeconds(20)));
+                TransactionBuilder.create().withAmount(new BigDecimal(12.3)).withCreatedDate(this.localDateTime.minusSeconds(10)).build(),
+                TransactionBuilder.create().withAmount(new BigDecimal(20.0)).withCreatedDate(this.localDateTime).build(),
+                TransactionBuilder.create().withAmount(new BigDecimal(15.5)).withCreatedDate(this.localDateTime.minusSeconds(20)).build());
 
         assertThat(this.transactionDAO.getLastTransactions(this.localDateTime))
                 .hasSize(3)

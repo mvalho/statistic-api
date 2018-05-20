@@ -35,7 +35,15 @@ public class Transaction {
         return created;
     }
 
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
     public double getAmount() {
         return amount.doubleValue();
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 }

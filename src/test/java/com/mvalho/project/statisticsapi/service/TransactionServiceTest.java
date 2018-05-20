@@ -5,6 +5,7 @@ import com.mvalho.project.statisticsapi.dto.TransactionDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 import com.mvalho.project.statisticsapi.repository.TransactionRepository;
 import com.mvalho.project.statisticsapi.service.impl.TransactionServiceImpl;
+import com.mvalho.project.statisticsapi.util.TransactionBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +38,7 @@ public class TransactionServiceTest {
 
     @Test
     public void saveShouldRespondWithCode201WhenTheTransactionIsWithinTheLast60Seconds() {
-        Transaction transaction = new Transaction(new BigDecimal(50.0), LocalDateTime.now().minusSeconds(10));
+        Transaction transaction = TransactionBuilder.create().withAmount(50.0).withCreatedDate(LocalDateTime.now().minusSeconds(10)).build();
         int expectedCode = 201;
 
         assertThat(this.transactionService.save(transaction)).hasFieldOrPropertyWithValue("responseCode", expectedCode);
@@ -46,7 +46,7 @@ public class TransactionServiceTest {
 
     @Test
     public void saveShouldRespondWithCode204WhenTheTransactionIsOutsideTheLast60Seconds() {
-        Transaction transaction = new Transaction(new BigDecimal(12.3), LocalDateTime.now().minusSeconds(61));
+        Transaction transaction = TransactionBuilder.create().withAmount(50.0).withCreatedDate(LocalDateTime.now().minusSeconds(61)).build();
         int expectedCode = 204;
 
         assertThat(this.transactionService.save(transaction)).hasFieldOrPropertyWithValue("responseCode", expectedCode);
@@ -54,7 +54,7 @@ public class TransactionServiceTest {
 
     @Test
     public void saveShouldRespondWithCode201AndTheAddedTransactionWhenATransactionIsWithinTheLast60Second() {
-        Transaction transaction = new Transaction(new BigDecimal(50.0), LocalDateTime.now().minusSeconds(10));
+        Transaction transaction = TransactionBuilder.create().withAmount(50.0).withCreatedDate(LocalDateTime.now().minusSeconds(10)).build();
         int expectedCode = 201;
 
         TransactionDTO expected = new TransactionDTO(expectedCode, transaction);
@@ -65,7 +65,7 @@ public class TransactionServiceTest {
 
     @Test
     public void saveShouldRespondWithCode204AndTheAddedTransactionWhenATransactionIsOutsideTheLast60Second() {
-        Transaction transaction = new Transaction(new BigDecimal(12.3), LocalDateTime.now().minusSeconds(61));
+        Transaction transaction = TransactionBuilder.create().withAmount(50.0).withCreatedDate(LocalDateTime.now().minusSeconds(61)).build();
         int expectedCode = 204;
 
         TransactionDTO expected = new TransactionDTO(expectedCode, transaction);
@@ -76,7 +76,7 @@ public class TransactionServiceTest {
     @Test
     public void saveShouldIncrementTheListOfTransactionsWhenANewTransactionIsPassedForAnEmptyTransactionList() {
         LocalDateTime now = LocalDateTime.now();
-        Transaction transaction = new Transaction(new BigDecimal(50.0), now.minusSeconds(10));
+        Transaction transaction = TransactionBuilder.create().withAmount(50.0).withCreatedDate(now.minusSeconds(10)).build();
         this.transactionService.save(transaction);
 
         List<Transaction> expected = Arrays.asList(transaction);
