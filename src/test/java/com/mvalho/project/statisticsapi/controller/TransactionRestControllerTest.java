@@ -2,6 +2,8 @@ package com.mvalho.project.statisticsapi.controller;
 
 import org.junit.Test;
 
+import java.time.Instant;
+
 import static org.hamcrest.core.Is.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -47,5 +49,19 @@ public class TransactionRestControllerTest extends RestControllerConfigTest {
         ).andExpect(status().isNoContent())
                 .andExpect(jsonPath(amountExpression, is(amountValue)))
                 .andExpect(jsonPath(timestampExpression, is(timestampValue)));
+    }
+
+    @Test
+    public void saveTransactionShouldReturnCode201WhenATransactionTimestampIsWithinOfLast60Seconds() throws Exception {
+        Instant now = Instant.now();
+        long timestampWithin60Seconds = now.toEpochMilli();
+        int timestampExpected = (int) now.getEpochSecond();
+        String jsonContent = "{\"amount\":12.3,\"timestamp\":" + timestampWithin60Seconds + "}";
+
+        this.mockMvc.perform(
+                post(urlTemplate).contentType(this.contentType).content(jsonContent).accept(APPLICATION_JSON_UTF8_VALUE)
+        ).andExpect(status().isCreated())
+                .andExpect(jsonPath(amountExpression, is(amountValue)))
+                .andExpect(jsonPath(timestampExpression, is(timestampExpected)));
     }
 }
