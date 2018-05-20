@@ -4,6 +4,7 @@ import com.mvalho.project.statisticsapi.entity.StatisticDTO;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 import com.mvalho.project.statisticsapi.repository.TransactionRepository;
 import com.mvalho.project.statisticsapi.service.StatisticService;
+import com.mvalho.project.statisticsapi.util.StatisticDtoBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.stream.DoubleStream;
 public class StatisticServiceImpl implements StatisticService {
 
     private TransactionRepository transactionRepository;
+    private List<Transaction> lastTransactions;
 
     @Autowired
     public StatisticServiceImpl(TransactionRepository transactionRepository) {
@@ -48,15 +50,19 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public StatisticDTO getStatistics() {
-        List<Transaction> lastTransactions = this.transactionRepository.getLastTransactions(LocalDateTime.now());
+        lastTransactions = this.transactionRepository.getLastTransactions(LocalDateTime.now());
 
-        StatisticDTO statisticDTO = new StatisticDTO();
-        statisticDTO.setSum(this.sum(lastTransactions));
-        statisticDTO.setAvg(this.average(lastTransactions));
-        statisticDTO.setMax(this.max(lastTransactions));
-        statisticDTO.setMin(this.min(lastTransactions));
-        statisticDTO.setCount(this.count(lastTransactions));
+        return createStatisticDTO();
+    }
 
-        return statisticDTO;
+    private StatisticDTO createStatisticDTO() {
+        return StatisticDtoBuilder
+                .create()
+                .withSum(sum(lastTransactions))
+                .withAverage(average(lastTransactions))
+                .withMax(max(lastTransactions))
+                .withMin(min(lastTransactions))
+                .withCount(count(lastTransactions))
+                .build();
     }
 }
