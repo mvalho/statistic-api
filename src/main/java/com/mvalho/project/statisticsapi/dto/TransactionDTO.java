@@ -30,4 +30,15 @@ public class TransactionDTO {
     }
 
 
+    public double getAmount() {
+        return amount;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public Integer getResponseCode() {
+        return responseCode;
+    }
 }
