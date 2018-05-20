@@ -9,6 +9,9 @@ public class Transaction {
     private LocalDateTime created;
     private BigDecimal amount;
 
+    public Transaction() {
+    }
+
     public Transaction(BigDecimal amount, LocalDateTime created) {
         this.amount = amount;
         this.created = created;
