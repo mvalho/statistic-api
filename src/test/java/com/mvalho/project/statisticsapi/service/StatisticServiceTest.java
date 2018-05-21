@@ -6,6 +6,7 @@ import com.mvalho.project.statisticsapi.entity.Transaction;
 import com.mvalho.project.statisticsapi.repository.TransactionRepository;
 import com.mvalho.project.statisticsapi.service.impl.StatisticServiceImpl;
 import com.mvalho.project.statisticsapi.util.StatisticDtoBuilder;
+import com.mvalho.project.statisticsapi.util.TransactionBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,14 +38,14 @@ public class StatisticServiceTest {
         this.statisticService = new StatisticServiceImpl(this.transactionRepository);
         this.transactionDAO.resetTransactionList();
 
-        now = LocalDateTime.now();
-        Transaction transaction1 = new Transaction(new BigDecimal(10.28, MathContext.DECIMAL32), now.minusSeconds(10));
-        Transaction transaction2 = new Transaction(new BigDecimal(123.45, MathContext.DECIMAL32), now.minusSeconds(70));
-        Transaction transaction3 = new Transaction(new BigDecimal(50.25, MathContext.DECIMAL32), now.minusSeconds(90));
-        Transaction transaction4 = new Transaction(new BigDecimal(58.24, MathContext.DECIMAL32), now.minusSeconds(2));
-        Transaction transaction5 = new Transaction(new BigDecimal(98.12, MathContext.DECIMAL32), now.minusSeconds(35));
-        Transaction transaction6 = new Transaction(new BigDecimal(46.32, MathContext.DECIMAL32), now.minusSeconds(61));
-        Transaction transaction7 = new Transaction(new BigDecimal(75.46, MathContext.DECIMAL32), now.minusSeconds(90));
+        now = LocalDateTime.now(ZoneId.of("+0"));
+        Transaction transaction1 = TransactionBuilder.create().withAmount(10.28).withCreatedDate(now.minusSeconds(10)).build();
+        Transaction transaction2 = TransactionBuilder.create().withAmount(123.45).withCreatedDate(now.minusSeconds(70)).build();
+        Transaction transaction3 = TransactionBuilder.create().withAmount(50.27).withCreatedDate(now.minusSeconds(90)).build();
+        Transaction transaction4 = TransactionBuilder.create().withAmount(58.24).withCreatedDate(now.minusSeconds(2)).build();
+        Transaction transaction5 = TransactionBuilder.create().withAmount(98.12).withCreatedDate(now.minusSeconds(35)).build();
+        Transaction transaction6 = TransactionBuilder.create().withAmount(46.32).withCreatedDate(now.minusSeconds(61)).build();
+        Transaction transaction7 = TransactionBuilder.create().withAmount(75.46).withCreatedDate(now.minusSeconds(90)).build();
 
         this.transactionDAO.add(transaction1);
         this.transactionDAO.add(transaction2);
@@ -131,7 +131,7 @@ public class StatisticServiceTest {
         StatisticDTO expected = StatisticDtoBuilder
                 .create()
                 .withSum(166.64)
-                .withAverage(55.54666666666666)
+                .withAverage(55.5467)
                 .withMax(98.12)
                 .withMin(10.28)
                 .withCount(3L)

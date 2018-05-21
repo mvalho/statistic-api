@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mvalho.project.statisticsapi.entity.Transaction;
 
+import java.math.BigDecimal;
 import java.time.ZoneOffset;
 
 public class TransactionDTO {
@@ -14,7 +15,7 @@ public class TransactionDTO {
     private Integer responseCode;
 
     @JsonProperty("amount")
-    private double amount;
+    private BigDecimal amount;
 
     @JsonProperty("timestamp")
     private long timestamp;
@@ -30,7 +31,7 @@ public class TransactionDTO {
     }
 
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 

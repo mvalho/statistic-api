@@ -39,8 +39,8 @@ public class Transaction {
         this.created = created;
     }
 
-    public double getAmount() {
-        return amount.doubleValue();
+    public BigDecimal getAmount() {
+        return amount;
     }
 
     public void setAmount(BigDecimal amount) {

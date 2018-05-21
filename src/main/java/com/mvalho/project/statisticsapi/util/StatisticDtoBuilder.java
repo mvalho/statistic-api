@@ -12,12 +12,12 @@ public class StatisticDtoBuilder {
 
     public static class StatisticDTOPropertiesBuilder {
         public StatisticDTOPropertiesBuilder withSum(double sum) {
-            statisticDTO.setSum(sum);
+            statisticDTO.setSum(Math.round(sum * 100.0) / 100.0);
             return this;
         }
 
         public StatisticDTOPropertiesBuilder withAverage(double average) {
-            statisticDTO.setAvg(average);
+            statisticDTO.setAvg(Math.round(average * 10000.0) / 10000.0);
             return this;
         }
 

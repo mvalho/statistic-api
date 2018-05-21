@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.DoubleStream;
 
@@ -25,22 +26,22 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public double sum(List<Transaction> lastTransactions) {
-        return lastTransactions.stream().flatMapToDouble(transaction -> DoubleStream.of(transaction.getAmount())).sum();
+        return lastTransactions.stream().flatMapToDouble(transaction -> DoubleStream.of(transaction.getAmount().doubleValue())).sum();
     }
 
     @Override
     public double average(List<Transaction> lastTransactions) {
-        return lastTransactions.stream().flatMapToDouble(transaction -> DoubleStream.of(transaction.getAmount())).average().orElse(0.0);
+        return lastTransactions.stream().flatMapToDouble(transaction -> DoubleStream.of(transaction.getAmount().doubleValue())).average().orElse(0.0);
     }
 
     @Override
     public double max(List<Transaction> lastTransactions) {
-        return lastTransactions.stream().mapToDouble(Transaction::getAmount).max().orElse(0.0);
+        return lastTransactions.stream().mapToDouble(transaction -> transaction.getAmount().doubleValue()).max().orElse(0.0);
     }
 
     @Override
     public double min(List<Transaction> lastTransactions) {
-        return lastTransactions.stream().mapToDouble(Transaction::getAmount).min().orElse(0.0);
+        return lastTransactions.stream().mapToDouble(transaction -> transaction.getAmount().doubleValue()).min().orElse(0.0);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public StatisticDTO getStatistics() {
-        lastTransactions = this.transactionRepository.getLastTransactions(LocalDateTime.now());
+        lastTransactions = this.transactionRepository.getLastTransactions(LocalDateTime.now(ZoneId.of("+0")));
 
         return createStatisticDTO();
     }
