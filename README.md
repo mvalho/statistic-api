@@ -1,19 +1,22 @@
-#StatisticAPI
+<h1>StatisticAPI</h1>
+<p>This project was build using:</p>
+<ul>
+  <li>Gradle</li>
+  <li>Java 8</li>
+  <li>SpringBoot</li>
+</ul>
+<p>All tests was created using <strong>Test Driven Development</strong> it is guaranteeing more than <strong>90%</strong> of coverage.</p>
 
-This project was build using:
+<h2>To run</h2>
+<h3>Build</h3>
+<code>gradle build</code>
 
-- Gradle
-- Java 8
+<h3>Tests</h3>
+<code>gradle test </code>
 
-All tests was created using Test Driven Development it is guaranteeing more than 90% of coverage.
+<h3>Application</h3>
+<code>gradle bootRun</code>
 
-##To run
-Tests
-```
-./gradlew test
-``` 
-
-Application
-```
-./gradlew bootRun
-```
+<h2>To access</h2>
+<p>http://localhost:8080/transactions</p>
+<p>http://localhost:8080/statistics</p>
