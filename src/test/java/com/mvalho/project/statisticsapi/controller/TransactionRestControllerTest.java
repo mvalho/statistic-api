@@ -1,6 +1,10 @@
 package com.mvalho.project.statisticsapi.controller;
 
+import com.mvalho.project.statisticsapi.service.TransactionService;
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.Instant;
 
@@ -18,6 +22,16 @@ public class TransactionRestControllerTest extends RestControllerConfigTest {
     private final double amountValue = 12.3;
     private final int timestampValue = 1478192204;
     private String urlTemplate = "/transactions";
+
+    @Autowired
+    private TransactionService transactionService;
+
+    @Before
+    public void setUp() {
+        this.mockMvc = MockMvcBuilders.standaloneSetup(
+                new TransactionRestController(this.transactionService))
+                .build();
+    }
 
     @Test
     public void saveTransactionShouldReceiveAPostMessageWhenTheServiceIsCalledThroughTransactionURL() throws Exception {

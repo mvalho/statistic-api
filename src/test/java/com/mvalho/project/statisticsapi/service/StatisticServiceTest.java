@@ -63,7 +63,7 @@ public class StatisticServiceTest {
     public void sumShouldCalculateTheSumOfAllAmountsFromTheTransactionWithinTheLast60Seconds() {
         double expected = 166.64;
 
-        assertThat(this.statisticService.sum(lastTransactions)).isEqualTo(expected);
+        assertThat(Math.round(this.statisticService.sum(lastTransactions) * 100.0) / 100.0).isEqualTo(expected);
     }
 
     @Test
@@ -76,9 +76,9 @@ public class StatisticServiceTest {
 
     @Test
     public void averageShouldCalculateTheAverageValueOfAllAmountFromTheTransactionsWithinTheLast60Seconds() {
-        double expected = 55.54666666666666;
+        double expected = 55.5467;
 
-        assertThat(this.statisticService.average(lastTransactions)).isEqualTo(expected);
+        assertThat(Math.round(this.statisticService.average(lastTransactions) * 10000.0) / 10000.0).isEqualTo(expected);
     }
 
     @Test
